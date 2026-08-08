@@ -1,0 +1,115 @@
+buildscript {
+    repositories {
+        maven { url = 'https://maven.aliyun.com/repository/gradle-plugin' }
+        maven { url = 'https://maven.aliyun.com/repository/public' }
+        maven {
+            name = 'Fabric'
+            url = 'https://maven.fabricmc.net/'
+        }
+        maven {
+            name = 'Gradle Plugin Portal'
+            url = 'https://plugins.gradle.org/m2/'
+        }
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath "net.fabricmc:fabric-loom:1.17-SNAPSHOT"
+    }
+}
+
+apply plugin: 'net.fabricmc.fabric-loom'
+apply plugin: 'java'
+
+// 26.1 线：fabric-api 0.155.2+26.1.2 同时覆盖 26.1/26.1.1/26.1.2（Modrinth 2026-08 核实），cloth/modmenu 同理
+def fabricApiVersions = [
+    '26.1':   '0.155.2+26.1.2',
+    '26.1.1': '0.155.2+26.1.2',
+    '26.1.2': '0.155.2+26.1.2',
+]
+def clothConfigVersions = [
+    '26.1':   '26.1.154',
+    '26.1.1': '26.1.154',
+    '26.1.2': '26.1.154',
+]
+def modmenuVersions = [
+    '26.1':   '18.0.0',
+    '26.1.1': '18.0.0',
+    '26.1.2': '18.0.0',
+]
+
+def mcVersion = project.property('mc_version')
+def fabricApiVersion = fabricApiVersions[mcVersion]
+def clothConfigVersion = clothConfigVersions[mcVersion]
+def modmenuVersion = modmenuVersions[mcVersion]
+if (fabricApiVersion == null || clothConfigVersion == null || modmenuVersion == null) {
+    throw new GradleException("未知版本: ${mcVersion}，支持: ${fabricApiVersions.keySet().join(', ')}")
+}
+
+version = "${mcVersion}-${mod_version}-fabric"
+group = project.maven_group
+base.archivesName = project.archives_base_name
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
+    withSourcesJar()
+}
+
+loom {
+    mods {
+        bilingualtooltips {
+            sourceSet sourceSets.main
+        }
+    }
+}
+
+repositories {
+    maven { url = 'https://maven.aliyun.com/repository/public' }
+    maven { url = 'https://maven.aliyun.com/repository/central' }
+    mavenCentral()
+    maven {
+        name = 'Fabric'
+        url = 'https://maven.fabricmc.net/'
+    }
+    maven {
+        name = 'Terraformers'
+        url = 'https://maven.terraformersmc.com/releases/'
+    }
+    maven {
+        name = 'Shedaniel'
+        url = 'https://maven.shedaniel.me/'
+    }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${mcVersion}"
+    implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${fabricApiVersion}"
+    implementation "me.shedaniel.cloth:cloth-config-fabric:${clothConfigVersion}"
+    implementation "com.terraformersmc:modmenu:${modmenuVersion}"
+    // dev 运行时把 Cloth/ModMenu 作为真实模组加载（26.x 全 Mojang 映射，无需重映射）
+    localRuntime "me.shedaniel.cloth:cloth-config-fabric:${clothConfigVersion}"
+    localRuntime "com.terraformersmc:modmenu:${modmenuVersion}"
+}
+
+// 共享纯 Java common 源码 + 共享 Cloth 界面 + 共享语言资源
+sourceSets {
+    main {
+        java.srcDirs += ['../common', '../screen']
+        resources.srcDirs += ['../resources']
+    }
+}
+
+processResources {
+    def version = project.version
+    inputs.property "version", version
+    inputs.property "mcVersion", mcVersion
+    filesMatching("fabric.mod.json") {
+        expand "version": version, "mcVersion": mcVersion
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 25
+    it.options.encoding = 'UTF-8'
+}

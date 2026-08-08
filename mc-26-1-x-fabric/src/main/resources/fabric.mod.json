@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "bilingualtooltips",
+  "version": "${version}",
+  "name": "Bilingual Tooltips",
+  "description": "Shows an item's name in a second language in its tooltip (e.g. Chinese and English).",
+  "authors": ["PageQwQ"],
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "client": ["pageqwq.bilingualtooltips.BilingualTooltipsClient"],
+    "modmenu": ["pageqwq.bilingualtooltips.ModMenuIntegration"]
+  },
+  "depends": {
+    "fabricloader": ">=0.19.3",
+    "minecraft": "~${mcVersion}",
+    "java": ">=25",
+    "fabric-api": "*",
+    "cloth-config": "*"
+  }
+}
