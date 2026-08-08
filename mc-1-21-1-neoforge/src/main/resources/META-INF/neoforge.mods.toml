@@ -10,6 +10,7 @@ authors="PageQwQ"
 description='''
 Shows an item's name in a second language in its tooltip (e.g. Chinese and English).
 '''
+icon="icon.png"
 
 [[dependencies.bilingualtooltips]]
 modId="neoforge"
