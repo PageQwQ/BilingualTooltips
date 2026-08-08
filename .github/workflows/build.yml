@@ -1,0 +1,57 @@
+name: build
+
+on:
+  push:
+    branches: [main, 1.21.x, 26.x]
+  pull_request:
+    branches: [main, 1.21.x, 26.x]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build mods (JDK ${{ matrix.java }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        java: [21, 25]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ matrix.java }}
+          cache: gradle
+
+      - name: Build subprojects for JDK ${{ matrix.java }}
+        shell: bash
+        run: |
+          set -e
+          built=0
+          for d in mc-*/; do
+            proj="${d%/}"
+            [ -d "$proj" ] || continue
+            # mc-1-21-1-* needs JDK 21; everything else (1.21.x parameterized, 26.x, NeoForge 26.x) needs JDK 25
+            case "$proj" in
+              mc-1-21-1-*) want=21 ;;
+              *) want=25 ;;
+            esac
+            if [ "$want" != "${{ matrix.java }}" ]; then
+              continue
+            fi
+            echo "::group::Building $proj (JDK ${{ matrix.java }})"
+            (cd "$proj" && ./gradlew build --no-daemon)
+            echo "::endgroup::"
+            built=$((built + 1))
+          done
+          if [ "$built" -eq 0 ]; then
+            echo "No subprojects require JDK ${{ matrix.java }} on this branch."
+          fi
+
+      - name: Upload jars
+        uses: actions/upload-artifact@v4
+        with:
+          name: jars-jdk${{ matrix.java }}
+          path: mc-*/build/libs/*.jar
+          if-no-files-found: ignore
