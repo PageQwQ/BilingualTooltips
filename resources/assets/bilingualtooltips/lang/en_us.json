@@ -1,0 +1,15 @@
+{
+  "bilingualtooltips.config.title": "Bilingual Tooltips",
+  "bilingualtooltips.config.category.general": "General",
+  "bilingualtooltips.config.enabled": "Show bilingual name",
+  "bilingualtooltips.config.secondary_language": "Secondary language",
+  "bilingualtooltips.config.secondary_language.tooltip": "Language code of the second name, e.g. en_us or zh_cn. \"auto\": shows English when the game is in Chinese, and Chinese otherwise.",
+  "bilingualtooltips.config.show_mode": "Show mode",
+  "bilingualtooltips.config.show_mode.always": "Always",
+  "bilingualtooltips.config.show_mode.hold_shift": "While holding Shift",
+  "bilingualtooltips.config.position": "Position",
+  "bilingualtooltips.config.position.below_name": "Below the item name",
+  "bilingualtooltips.config.position.end": "End of the tooltip",
+  "bilingualtooltips.config.only_when_different": "Only when different",
+  "bilingualtooltips.config.only_when_different.tooltip": "Hide the second name when it is identical to the displayed name."
+}

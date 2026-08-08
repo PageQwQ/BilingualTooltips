@@ -1,0 +1,15 @@
+{
+  "bilingualtooltips.config.title": "双语物品名",
+  "bilingualtooltips.config.category.general": "通用",
+  "bilingualtooltips.config.enabled": "显示双语名称",
+  "bilingualtooltips.config.secondary_language": "第二语言",
+  "bilingualtooltips.config.secondary_language.tooltip": "第二名称的语言代码，如 en_us 或 zh_cn。填 \"auto\" 时：游戏为中文则显示英文名，否则显示中文名。",
+  "bilingualtooltips.config.show_mode": "显示方式",
+  "bilingualtooltips.config.show_mode.always": "始终显示",
+  "bilingualtooltips.config.show_mode.hold_shift": "按住 Shift 时显示",
+  "bilingualtooltips.config.position": "位置",
+  "bilingualtooltips.config.position.below_name": "物品名下方",
+  "bilingualtooltips.config.position.end": "Tooltip 末尾",
+  "bilingualtooltips.config.only_when_different": "仅在不同时显示",
+  "bilingualtooltips.config.only_when_different.tooltip": "当第二名称与当前显示名相同时隐藏它。"
+}
