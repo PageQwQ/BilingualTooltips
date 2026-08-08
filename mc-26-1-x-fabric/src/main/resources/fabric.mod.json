@@ -6,6 +6,7 @@
   "description": "Shows an item's name in a second language in its tooltip (e.g. Chinese and English).",
   "authors": ["PageQwQ"],
   "license": "MIT",
+  "icon": "assets/bilingualtooltips/icon.png",
   "environment": "client",
   "entrypoints": {
     "client": ["pageqwq.bilingualtooltips.BilingualTooltipsClient"],
