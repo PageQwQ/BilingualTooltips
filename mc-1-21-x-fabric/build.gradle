@@ -65,6 +65,10 @@ def modmenuVersion = modmenuVersions[mcVersion]
 if (fabricApiVersion == null || clothConfigVersion == null || modmenuVersion == null) {
     throw new GradleException("未知版本: ${mcVersion}，支持: ${fabricApiVersions.keySet().join(', ')}")
 }
+// 按版本挂形态目录：Shift 检测 1.21.8 及之前静态、之后实例；资源定位类 1.21.11 起为 Identifier
+def patch = Integer.parseInt(mcVersion.substring('1.21.'.length()))
+def shiftForm = patch <= 8 ? 'shift-static' : 'shift-instance'
+def resourceForm = patch <= 10 ? 'resource-rl' : 'resource-ident'
 
 version = "${mcVersion}-${mod_version}-fabric"
 group = project.maven_group
@@ -111,10 +115,12 @@ dependencies {
     modImplementation "com.terraformersmc:modmenu:${modmenuVersion}"
 }
 
-// 共享纯 Java common 源码 + 共享 Cloth 界面 + 共享语言资源
+// 共享纯 Java common 源码 + 共享 Cloth 界面 + 共享语言资源 + 按版本挂形态目录
 sourceSets {
     main {
         java.srcDirs += ['../common', '../screen']
+        java.srcDirs += "src/${shiftForm}/java"
+        java.srcDirs += "src/${resourceForm}/java"
         resources.srcDirs += ['../resources']
     }
 }
