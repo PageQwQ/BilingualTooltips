@@ -42,6 +42,13 @@ sourceSets {
     }
 }
 
+// toml 里的 ${file.jarVersion} 依赖 manifest 中的 Implementation-Version
+jar {
+    manifest {
+        attributes 'Implementation-Version': project.version
+    }
+}
+
 dependencies {
     implementation "me.shedaniel.cloth:cloth-config-neoforge:${project.cloth_config_version}"
 }
