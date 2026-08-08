@@ -5,4 +5,5 @@ run/
 .DS_Store
 *.log
 .idea/
+.vscode/
 *.iml
