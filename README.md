@@ -14,17 +14,11 @@ This mod provides a configuration interface that allows you to freely set a seco
 
 You can also configure the **Show mode** (Always/While holding Shift) and **position** (Below the item name/End of the tooltip) for the second language.
 
-## Features
-
-- Shows the item's name in a **second language** in its tooltip (e.g. Chinese and English).
-- By default the secondary language is picked automatically: English clients show Chinese, Chinese clients show English. Any language code can be set manually (e.g. `en_us`, `zh_cn`, `ja_jp`).
-- Config screen (via [Cloth Config](https://modrinth.com/mod/cloth-config)): enable/disable, secondary language, show mode, position, and "only when different".
-
 ## Supported versions
 
 | Loader | Minecraft |
 |--------|-----------|
-| Fabric | 1.21.1 – 1.21.11, 26.1, 26.1.1, 26.1.2, 26.2 |
+| Fabric | 1.21.1 – 1.21.11, 26.1.x, 26.2 |
 | NeoForge | 1.21.1, 26.1.2, 26.2 |
 
 ## Repository layout
@@ -65,19 +59,3 @@ Run a development client with `./gradlew runClient` (same `JAVA_HOME` and `-Pmc_
 ## Continuous Integration
 
 `.github/workflows/build.yml` runs on every push/PR to `main`, `1.21.x` and `26.x`. It discovers all `mc-*/` subprojects on the branch, picks the required JDK per project (JDK 21 for `mc-1-21-1-*`, JDK 25 for the rest) using a matrix, runs `./gradlew build`, and uploads the produced jars as build artifacts.
-
-## Configuration
-
-Config file: `config/bilingualtooltips.json` (created on first run). Fields:
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `enabled` | bool | `true` | Master switch |
-| `secondaryLanguage` | string | `"auto"` | Secondary language code; `"auto"` = English on Chinese clients, Chinese otherwise |
-| `showMode` | `"ALWAYS"` \| `"HOLD_SHIFT"` | `"ALWAYS"` | When the second name is shown |
-| `position` | `"BELOW_NAME"` \| `"END"` | `"BELOW_NAME"` | Tooltip position of the second name |
-| `onlyWhenDifferent` | bool | `true` | Hide the second name when it equals the displayed name |
-
-## License
-
-MIT
