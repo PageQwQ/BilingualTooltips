@@ -22,7 +22,7 @@ side="BOTH"
 [[dependencies.bilingualtooltips]]
 modId="minecraft"
 type="required"
-versionRange="[26.1]"
+versionRange="[26.1,26.1.2]"
 ordering="NONE"
 side="BOTH"
 
